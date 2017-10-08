@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>message-box</title>
+</head>
+<body>
+    <div id="container">
+    <header>
+        <h3>vue message-box</h3>
+        <textarea placeholder="please leave your message" v-model.trim="newMsg"></textarea>
+        <br>
+        <button style="background: deepskyblue;" @click="addMessage">submit</button>
+    </header>
+<div>
+    <div>Messages</div>
+    <div>
+        <div v-for="message in messages">{{message.title}}<button style="color: red;" @click="removeMessage(message)">x</button></div>
+        <button style="background-color: red;" v-if="messages.length>1" @click="removeAll">delete</button>
+    </div>
+</div></div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+    var STORAGE_KEY = 'messages'
+    var msgStorage = {
+    fetch: function () {
+    var msgs = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    msgs.forEach(function (msg, index) {
+      msg.id = index
+    })
+    msgStorage.uid = msgs.length
+    return msgs
+  },
+    save: function (msgs) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs))
+  }
+}
+    var vm=new Vue({
+        el: "#container",
+        data: {
+            messages: msgStorage.fetch(),
+            newMsg: '',
+        },
+        watch: {
+        messages: {
+      handler: function (msgs) {
+        msgStorage.save(msgs)
+      },
+      deep: true
+    }
+  },
+        methods: {
+            addMessage: function(){
+                var value=this.newMsg;
+                if(!value){return }
+                this.messages.push({
+                    id:msgStorage.uid++,
+                    title: value
+                })
+                this.newMsg=''
+            },
+            removeMessage: function(msg){
+                this.messages.splice(this.messages.indexOf(msg),1)
+            },
+            removeAll:function(){
+                msgStorage.uid=0
+                return this.messages=[]
+            }
+        }
+    })
+</script>
+</body>
+</html>
