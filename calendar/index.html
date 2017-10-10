@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>vue calendar</title>
+  <style type="text/css">
+    .container{
+      width: 400px;
+      height: 400px;
+      border: 1px solid black;
+
+    }
+    .board{
+      width: 100%;
+      height: 50px;
+      text-align: center;
+
+    }
+    .content{
+      width: 100%;
+      height: 300px;
+      border-top: 1px solid gray;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .content span{
+      width: 14%;
+    }
+    .content span:hover{
+      background: rgba(25, 151, 254, 0.4);
+      color: white;
+    }
+    .header{
+      background: rgba(25, 151, 254, 0.4);
+      color: white;
+    }
+    a{
+      text-decoration: none;
+    }
+    .board span{
+          width: 14%;
+    display: inline-block;
+    vertical-align: middle;
+    }
+    .today{
+      {
+      background: rgba(25, 151, 254, 0.4);
+      color: #fff;
+    }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="board header"><a href="#" @click.prevent='pre'>上个月</a><span>{{theYear}}/{{theMonth}}</span><a href="#" @click.prevent='next'>下个月</a></div>
+  <div class="board"><span v-for="week in weeks">{{week}}</span></div>
+  <div class="content"><span v-for="day in days" @click='showInfo(day)'>{{day}}</span></div>
+</div>
+<script src="vue.js"></script>
+<script type="text/javascript">
+  var vm=new Vue({
+    el: '.container',
+    data: {
+      weeks: ["日","一","二","三","四","五","六"],
+      days: [],
+      today: new Date()
+    },
+    methods:{
+      showInfo: function(day){
+        alert(this.theYear+"-"+this.theMonth+"-"+day)
+      },
+      pre: function(){
+        this.theMonth--;
+      },
+      next: function(){
+        this.theMonth++;
+      }
+    },
+    computed:{
+      theYear:function(){
+        return this.today.getFullYear();
+      },
+      theMonth: function(){
+        return this.today.getMonth()+1
+      },
+
+    }
+  })
+</script>
+</body>
+</html>
