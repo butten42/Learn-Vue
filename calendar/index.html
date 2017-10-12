@@ -62,12 +62,11 @@
     data: {
       weeks: ["日","一","二","三","四","五","六"],
       days: [],
-      theMonth: null,
-      theYear: null
+      theMonth: new Date().getMonth()+1,
+      theYear: new Date().getFullYear()
     },
     created: function(){
 
-      this.newlife();
       this.init();
     },
     computed: {
@@ -85,10 +84,7 @@
       }
     },
     methods:{
-      newlife: function(){
-        this.theMonth=new Date().getMonth()+1;
-        this.theYear=new Date().getFullYear();//年份
-      },
+
       init: function(){
         this.days=[];
 
@@ -111,7 +107,7 @@
       },
       showInfo: function(day){
         if(day){
-        alert(this.theYear+"-"+this.theMonth+"-"+day)}
+        alert(this.theYear+"-"+this.formatMonth+"-"+day)}
       },
       pre: function(){
         if(this.theMonth<2){
